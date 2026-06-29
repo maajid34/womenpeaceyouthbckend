@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const allowedMethods = ["GET", "HEAD", "PUT", "OPTIONS"];
+const allowedMethods = ["GET", "HEAD", "PUT"];
 
 const [{ PutBucketCorsCommand }, { r2Bucket, r2Client, r2Status }] = await Promise.all([
   import("@aws-sdk/client-s3"),
