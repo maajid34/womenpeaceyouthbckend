@@ -16,8 +16,7 @@ export async function createSignedUploadUrl({ key, contentType }) {
 
   const command = new PutObjectCommand({
     Bucket: r2Bucket,
-    Key: key,
-    ContentType: contentType
+    Key: key
   });
 
   const uploadUrl = await getSignedUrl(r2Client, command, { expiresIn: 10 * 60 });
@@ -25,7 +24,7 @@ export async function createSignedUploadUrl({ key, contentType }) {
     key,
     uploadUrl,
     publicUrl: publicUrlForKey(key),
-    uploadHeaders: { "Content-Type": contentType },
+    uploadHeaders: {},
     expiresIn: 600
   };
 }
