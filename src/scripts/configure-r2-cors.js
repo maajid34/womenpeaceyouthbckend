@@ -2,6 +2,8 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+const allowedMethods = ["GET", "HEAD", "PUT", "OPTIONS"];
+
 const [{ PutBucketCorsCommand }, { r2Bucket, r2Client, r2Status }] = await Promise.all([
   import("@aws-sdk/client-s3"),
   import("../config/r2.js")
@@ -36,7 +38,7 @@ async function configureWithS3(allowedOrigins) {
           {
             ID: "swyp-browser-direct-uploads",
             AllowedOrigins: allowedOrigins,
-            AllowedMethods: ["GET", "HEAD", "PUT"],
+            AllowedMethods: allowedMethods,
             AllowedHeaders: ["*"],
             ExposeHeaders: ["ETag"],
             MaxAgeSeconds: 3600
@@ -62,7 +64,7 @@ async function configureWithCloudflareApi(allowedOrigins) {
           {
             allowed: {
               origins: allowedOrigins,
-              methods: ["GET", "HEAD", "PUT"],
+              methods: allowedMethods,
               headers: ["*"]
             },
             exposeHeaders: ["ETag"],
@@ -102,7 +104,7 @@ async function main() {
 
   console.log(`Bucket: ${r2Bucket}`);
   console.log(`Allowed origins: ${allowedOrigins.join(", ")}`);
-  console.log("Allowed methods: GET, HEAD, PUT");
+  console.log(`Allowed methods: ${allowedMethods.join(", ")}`);
 }
 
 main().catch((error) => {
