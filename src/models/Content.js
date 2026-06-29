@@ -13,6 +13,20 @@ const mediaSchema = new mongoose.Schema(
   { _id: false }
 );
 
+const activitySchema = new mongoose.Schema(
+  {
+    title: { type: String, trim: true },
+    description: String,
+    fullDescription: String,
+    date: Date,
+    client: { type: String, trim: true },
+    location: { type: String, trim: true },
+    imageUrl: String,
+    photos: [mediaSchema]
+  },
+  { _id: true }
+);
+
 const contentTypes = [
   "projects",
   "programs",
@@ -54,6 +68,7 @@ const contentSchema = new mongoose.Schema(
     displayOrder: { type: Number, default: 0 },
     objectives: [String],
     activities: [String],
+    activityDetails: [activitySchema],
     achievements: [String],
     metadata: { type: mongoose.Schema.Types.Mixed, default: {} },
     imageUrl: String,
