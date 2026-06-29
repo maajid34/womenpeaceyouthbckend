@@ -8,8 +8,9 @@ const [{ PutBucketCorsCommand }, { r2Bucket, r2Client, r2Status }] = await Promi
 ]);
 
 function originsFromEnvironment() {
-  const configured = (process.env.FRONTEND_URL || process.env.CLIENT_URL || "")
-    .split(",")
+  const configured = [process.env.FRONTEND_URL, process.env.CLIENT_URL, process.env.VERCEL_URL && `https://${process.env.VERCEL_URL}`]
+    .filter(Boolean)
+    .flatMap((value) => value.split(","))
     .map((origin) => origin.trim().replace(/\/$/, ""))
     .filter(Boolean);
 
